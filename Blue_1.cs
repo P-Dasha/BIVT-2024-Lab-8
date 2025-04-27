@@ -17,50 +17,45 @@ namespace Lab_8
             _output = null;
         }
 
-        private void AddOutput(string s)
-        {
-            if (_output == null) _output = new string[1];
-            else Array.Resize(ref _output, _output.Length + 1);
-
-            _output[_output.Length - 1] = s;
-        }
-
-        private string Split(string s)
-        {
-            if (s.Length <= 50)
-            {
-                AddOutput(s);
-                return null;
-            }
-            
-            // найти индекс посл пробела (инд)
-            // добавить всё что до него в аутпут (от 0 до инд - 1)
-            // обрезать строку (с индекса пробела +1 до конца)
-
-            int ind = s.LastIndexOf(' ', 49, 50); //(нач с 50(49)-элемента и 50 элементов к началу)
-            string toAnswer = s.Substring(0, ind);
-            AddOutput(toAnswer);
-            s = s.Substring(ind + 1);
-
-            return s;
-        }
-
         public override void Review()
         {
-            if (this.Input == null)
+            if (string.IsNullOrEmpty(Input))
             {
-                _output = new string[0];
+                _output = null;
                 return;
             }
 
-            string input = Input;
-            while (!string.IsNullOrEmpty(input))
+            var words = Input.Split(' ');
+            string currentLine = "";
+
+            string[] lines = new string[words.Length];
+            int сount = 0;
+
+            for (int i = 0; i < words.Length; i++)
             {
-                input = Split(input);
+                string word = words[i];
+
+                if (currentLine.Length + 1 + word.Length <= 50)
+                {
+                    if (currentLine.Length > 0) currentLine += " " + word;
+                    else currentLine += word;
+                }
+                else
+                {
+                    lines[сount++] = currentLine;
+                    currentLine = word;
+                }
             }
 
-            return;
+            if (currentLine.Length > 0)
+            {
+                lines[сount++] = currentLine;
+            }
+
+            _output = new string[сount];
+            Array.Copy(lines, _output, сount);
         }
+
 
         public override string ToString()
         {

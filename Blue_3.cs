@@ -69,33 +69,57 @@ namespace Lab_8
             string[] words = Input.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
             int wordcnt = 0; // числа не учитываются как слова???
-            int[] letterFreq = new int['z' + 1]; // подобие словаря через аски
+            int[] letterFreq = new int[59]; // подобие словаря через аски
 
             _output = new (char, double)[0];
 
             foreach (var word in words)
             {
-                char char1 = char.ToLower(word[0]);
-                if (char.IsLetter(char1))
+                if (!string.IsNullOrEmpty(word))
                 {
-                    wordcnt++;
-                    letterFreq[char1]++; 
+                    char char1 = char.ToLower(word[0]);
+
+                    if (char.IsLetter(char1))
+                    {
+                        wordcnt++;
+                        // a - z eng
+                        if (char1 >= 'a' && char1 <= 'z')
+                        {
+                            letterFreq[char1 - 'a']++; 
+                        }
+                        // а - я rus
+                        else if (char1 >= 'а' && char1 <= 'я')
+                        {
+                            letterFreq[char1 - 'а' + 26]++; 
+                        }
+
+                    }
                 }
             }
 
             // присвоить output'у символы от a до z where freq!= 0
             // сортировать
 
-            for (int i = (int)'a'; i <= (int)'z'; i++)
+            for (int i = 0; i < letterFreq.Length; i++)
             {
-                if (letterFreq[i] != 0)
+                if (letterFreq[i] > 0)
                 {
-                    Array.Resize(ref _output, _output.Length + 1);
+                    char letter;
+                    if (i < 26) // a - z 
+                    {
+                        letter = (char)(i + 'a');
+                    }
+                    else // а - я
+                    {
+                        letter = (char)(i - 26 + 'а');
+                    }
                     double freq = Math.Round(letterFreq[i] * 100.0 / wordcnt, 4);
-                    _output[_output.Length - 1] = ((char)i, freq);
+
+                    Array.Resize(ref _output, _output.Length + 1);
+                    _output[_output.Length - 1] = (letter, freq);
                 }
             }
-
+             
             Sort();
         }
 

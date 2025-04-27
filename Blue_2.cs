@@ -9,7 +9,7 @@ namespace Lab_8
     public class Blue_2 : Blue
     {
         private string _output;
-        public string _sequence;
+        private string _sequence;
         public string Output => _output;
 
         public Blue_2(string input, string sequence) : base(input)
@@ -25,7 +25,6 @@ namespace Lab_8
 
             int begin = -1, end = -1;
 
-            // реализовать ТОЛЬКО нахождение конца и начала слова
 
             for (int i = s.Length - seq.Length; i >= 0; i--)
             {
@@ -65,9 +64,14 @@ namespace Lab_8
 
         public override void Review()
         {
-            if (this.Input == null || _sequence == null)
+            if (this.Input == null || string.IsNullOrEmpty(_sequence))
             {
                 _output = null;
+                return;
+            }
+            if (_sequence.Any(c => char.IsPunctuation(c) || char.IsWhiteSpace(c)))
+            {
+                _output = Input;
                 return;
             }
 
