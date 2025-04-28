@@ -64,9 +64,9 @@ namespace Lab_8
             string answer = "";
             foreach (var s in _output)
             {
-                answer += $"{s}\n";
+                answer += $"{s}{Environment.NewLine}";
             }
-            answer = answer.Remove(answer.Length - 1, 1);
+            answer = answer.Remove(answer.Length - Environment.NewLine.Length, Environment.NewLine.Length);
 
             return answer;
         }
