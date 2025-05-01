@@ -129,7 +129,7 @@ namespace Lab_8
 
             string answer = "";
             foreach ((char let, double freq) in _output)
-                answer += $"{let} - {freq}{Environment.NewLine}";
+                answer += $"{let} - {freq:f4}{Environment.NewLine}";
             answer = answer.Remove(answer.Length - Environment.NewLine.Length, Environment.NewLine.Length);
 
             return answer;
