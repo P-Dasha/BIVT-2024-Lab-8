@@ -10,7 +10,17 @@ namespace Lab_8
     public class Blue_1 : Blue
     {
         private string[] _output;
-        public string[] Output => _output;
+        public string[] Output
+        {
+            get
+            {
+                if (_output == null) return null;
+
+                string[] temp = new string[_output.Length];
+                Array.Copy(_output, temp, _output.Length);
+                return temp;
+            }
+        }
 
         public Blue_1(string input) : base(input)
         {
@@ -29,7 +39,7 @@ namespace Lab_8
             string currentLine = "";
 
             string[] lines = new string[words.Length];
-            int сount = 0;
+            int count = 0;
 
             for (int i = 0; i < words.Length; i++)
             {
@@ -42,18 +52,18 @@ namespace Lab_8
                 }
                 else
                 {
-                    lines[сount++] = currentLine;
+                    lines[count++] = currentLine;
                     currentLine = word;
                 }
             }
 
             if (currentLine.Length > 0)
             {
-                lines[сount++] = currentLine;
+                lines[count++] = currentLine;
             }
 
-            _output = new string[сount];
-            Array.Copy(lines, _output, сount);
+            _output = new string[count];
+            Array.Copy(lines, _output, count);
         }
 
 
